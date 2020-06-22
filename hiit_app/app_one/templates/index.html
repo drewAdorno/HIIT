@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hiit</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div class="page_container">
+            <h1>Choose 6 exercises</h1>
+            <div class="exercise_container">
+                <a href="javascript:addExercise('slide_1', 'pushup')">
+                    <div class="image_container">
+                        <img id="pushup" src="../static/images/slide_1.jpg" alt="pushup">
+                        <p>pushup</p>
+                    </div>
+                </a>
+                <a href="javascript:addExercise('slide_2', 'standup')">
+                    <div class="image_container">
+                        <img id="standup" src="../static/images/slide_2.jpg" alt="standup">
+                        <p>standup</p>
+                    </div>
+                </a>
+                <a href="javascript:addExercise('slide_3', 'sitdown')">
+                    <div class="image_container">
+                        <img id="sitdown" src="../static/images/slide_3.jpg" alt="sitdown">
+                        <p>sitdown</p>
+                    </div>
+                </a>
+                <a href="javascript:addExercise('slide_4', 'pullup')">
+                    <div class="image_container">
+                        <img id="pullup" src="../static/images/slide_4.jpg" alt="pullup">
+                        <p>pullup</p>
+                    </div>
+                </a>
+                <a href="javascript:addExercise('slide_5', 'berpy')">
+                    <div class="image_container">
+                        <img id="berpy" src="../static/images/slide_5.jpg" alt="berpy">
+                        <p>Burpees</p>
+                    </div>
+                </a>
+                <a href="javascript:addExercise('slide_6', 'jumps')">
+                    <div class="image_container">
+                        <img id="jumps" src="../static/images/slide_6.jpg" alt="jumps">
+                        <p>jumps</p>
+                    </div>
+                </a>
+            
+            <br>
+            <br>
+            <form action="/starttraning" method="POST">
+                {% csrf_token %}
+                Rest Time between exercises,  in seconds: <input type="number" id = "restTime" name="rest_time"><br><br>
+                Workout Time for each exercise,  in seconds: <input type="number" id = "workoutTime" name="workout_time"><br><br>
+                Break Time between cycles,  in seconds: <input type="number" id = "breakTime" name="break_time"><br><br>
+                <button>Start training</button>
+                <br>
+            </form> 
+            <button onclick="location.href='http://localhost:8000/reset'">Reset</button>
+        </div>
+            <div class="description_container">
+                <p id="array"></p>
+                <br>
+                <p>Rest Time:<span id = 'rest_time_num'>{{ request.session.rest_time }}</span></p>
+                <p>Workout Time:<span id = 'workout_time_num'>{{ request.session.workout_time }}</span></p>
+                <p>Break Time:<span id = 'break_time_num'>{{ request.session.break_time }}</span></p>
+                <span>Exercise 1: </span><span id="1"></span>
+                <br>
+                <span>Exercise 2: </span><span id="2"></span>
+                <br>
+                <span>Exercise 3: </span><span id="3"></span>
+                <br>
+                <span>Exercise 4: </span><span id="4"></span>
+                <br>
+                <span>Exercise 5: </span><span id="5"></span>
+                <br>
+                <span>Exercise 6: </span><span id="6"></span>
+            </div>
+        </div>
+        <script>
+            function addExercise(ex_name, pic_name)
+            {
+                $(`#${pic_name}`).css('border', '2px green solid')
+                $.ajax({
+                    type: 'GET',
+                    url: `http://localhost:8000/exercise/${pic_name}/${ex_name}`,
+                    dataType: 'JSON',
+                    async: 'TRUE',
+                    data: {csrfmidlewaretoken: '{{csrf_token}}'},
+                    success: function (json){
+                        console.log(json['data']);
+                        //$('#array').html(json['data'])
+                        for (let i=0; i<json['data'].length; i++)
+                        {
+                            console.log(`#${i}`);
+                            $(`#${i+1}`).html(json['data'][i])
+                        }
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>

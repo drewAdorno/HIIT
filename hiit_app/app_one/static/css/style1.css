@@ -1,0 +1,51 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+/* div
+{
+    border: 2px black solid;
+} */
+
+.page_container{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgb(233, 233, 233);
+    text-align: center;
+}
+h1{
+    margin: 10px;
+    text-align: center;
+}
+
+.exercise_container a{
+    display: inline-block;
+}
+
+.exercise_container a img{
+    width: 200px;
+}
+
+h3{
+    margin-top: 10px;
+}
+.description_container p{
+    margin-top: 6px;
+}
+#exercise_photo_container
+{
+    padding: 20px;
+}
+img
+{
+    width:1000px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+h1{
+    margin: 10px;
+    text-align: center;
+}
+
